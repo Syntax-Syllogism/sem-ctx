@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sem-ctx"
+version = "0.1.1"
+description = "A lightweight local markdown semantic search utility and template lookup"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = [
+    "fastembed>=0.2.0",
+    "numpy",
+    "python-dotenv",
+]
+
+[project.scripts]
+sem-ctx = "sem_ctx.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sem_ctx*"]

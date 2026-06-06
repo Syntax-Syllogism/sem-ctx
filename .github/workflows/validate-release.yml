@@ -1,0 +1,42 @@
+# Validates the history-free public snapshot created by bin/publish.sh.
+# Versions and tags are internal; this workflow does not publish to a registry.
+name: Validate release
+
+on:
+  push:
+    branches: [release]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-release
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate Python CLI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Test
+        run: uv run python -m unittest discover -s tests
+
+      - name: Check CLI
+        run: uv run sem-ctx --help
