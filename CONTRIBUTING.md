@@ -10,7 +10,7 @@ Thank you for your interest in contributing to sem-ctx! This is a hobbyist proje
    - Fork the repository.
    - Create a new branch for your feature or fix.
    - Write clear, documented code.
-   - Ensure tests pass (`npm test`).
+   - Ensure tests pass (`uv run python -m unittest discover -s tests`).
    - Open a Pull Request with a description of your changes.
 
 ## Development Setup
