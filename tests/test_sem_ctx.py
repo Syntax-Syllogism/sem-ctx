@@ -3,6 +3,9 @@ import sys
 import shutil
 import unittest
 import tempfile
+from contextlib import redirect_stdout
+from importlib.metadata import version
+from io import StringIO
 from pathlib import Path
 
 # Add project root to sys.path to allow imports
@@ -16,6 +19,8 @@ from sem_ctx.core import scan_markdown_files, incremental_update_index, get_snip
 from sem_ctx.creation import build_template_context, infer_target_dir
 from sem_ctx.protocol import BEGIN_MARKER, END_MARKER, install_protocol
 import sem_ctx.core as core_module
+import sem_ctx
+from sem_ctx.cli import main
 from sem_ctx.embeddings import generate_embeddings, cosine_similarity, semantic_search
 
 class TestSemCtx(unittest.TestCase):
@@ -64,6 +69,22 @@ class TestSemCtx(unittest.TestCase):
         file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.write_text(content, encoding="utf-8", newline="\n")
         return file_path
+
+    def test_version_flag_prints_installed_package_version(self):
+        expected_version = version("sem-ctx")
+        output = StringIO()
+        original_argv = sys.argv
+        try:
+            sys.argv = ["sem-ctx", "--version"]
+            with redirect_stdout(output):
+                with self.assertRaises(SystemExit) as exit_info:
+                    main()
+        finally:
+            sys.argv = original_argv
+
+        self.assertEqual(exit_info.exception.code, 0)
+        self.assertEqual(output.getvalue(), f"sem-ctx {expected_version}\n")
+        self.assertEqual(sem_ctx.__version__, expected_version)
 
     def test_scan_markdown_files(self):
         # Create nested directories and files

@@ -64,6 +64,12 @@ sem-ctx set-default path/to/your/directory
 
 ## Core Commands
 
+Print the installed package version:
+
+```bash
+sem-ctx --version
+```
+
 ### 1. Semantic Search
 
 Perform semantic vector search using a highly optimized, local embedding model (`BAAI/bge-small-en-v1.5` running via `fastembed`):

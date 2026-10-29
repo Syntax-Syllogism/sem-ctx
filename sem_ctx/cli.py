@@ -2,6 +2,7 @@ import sys
 import json
 import argparse
 
+from sem_ctx import __version__
 from sem_ctx.config import (
     resolve_target_dir, 
     set_default_target_dir
@@ -28,6 +29,11 @@ def _positive_int(value: str) -> int:
 def main():
     parser = argparse.ArgumentParser(
         description="Semantic Context: A lightweight local markdown semantic search utility and template lookup."
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"sem-ctx {__version__}",
     )
     
     # Global directory override

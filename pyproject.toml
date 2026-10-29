@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sem-ctx"
-version = "0.1.1"
+version = "0.1.2"
 description = "A lightweight local markdown semantic search utility and template lookup"
 readme = "README.md"
 requires-python = ">=3.9"
